@@ -40,7 +40,7 @@ function geraLista() {
                              <b>Telefone: </b> ${element.telefone} <br>
                              <b>Data de Nascimento: </b> ${element.dataNascimento} <br>
                              <b>Nota final do Curso: </b> ${element.nota} <br>
-                             <button onclick='removerCadastro(${i++}, ${true})' id='botao-remocao'>Excluir</button><br>`;
+                             <button onclick='removerCadastro(${i++}, ${true})' id='botao-remocao'>Excluir</button><br><br>`;
 			}
     const p = criaP();
     p.innerHTML = listaExibida;
