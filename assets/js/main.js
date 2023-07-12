@@ -14,7 +14,10 @@ form.addEventListener('submit', e => {
     }else if (!validaTelefone(telefone)) {
         setResultado("Telefone Inválido! Digite um número válido (incluindo ddd)!", false);
         return;
-    }else if (!validaNota(notaFinal)) {
+    } else if (dataNascimento === ""){
+        setResultado("Preencha o campo 'data' com uma data válida!", false);
+        return;
+    } else if (!validaNota(notaFinal)) {
         setResultado("Valor de nota inválido! Digite um número entre 0 e 10!", false);
         return;
     }
@@ -33,12 +36,15 @@ function geraLista() {
     let listaExibida = '';
 	let i = 0;
 		for (element of listaAlunos) {
-			listaExibida += `<b>Nome: </b> ${element.nome} <br><b>Telefone: </b> ${element.telefone} <br><b>Data de Nascimento: </b> ${element.dataNascimento} <br><b>Nota final do Curso: </b> ${element.nota} <br><br>`;
+			listaExibida += `<b>Nome: </b> ${element.nome} <br>
+                             <b>Telefone: </b> ${element.telefone} <br>
+                             <b>Data de Nascimento: </b> ${element.dataNascimento} <br>
+                             <b>Nota final do Curso: </b> ${element.nota} <br>
+                             <button onclick='removerCadastro(${i++}, ${true})' id='botao-remocao'>Excluir</button><br>`;
 			}
     const p = criaP();
     p.innerHTML = listaExibida;
     cadastrosExibidos.appendChild(p);
-
 }
 
 function setResultado(msg, isValid) {
@@ -60,9 +66,17 @@ function setResultado(msg, isValid) {
 
 }
 
-function criaP() {
-    const p = document.createElement('p');
-    return p;
+function removerCadastro(indice, exibir) {
+    const nomeExcluido = listaAlunos[indice].nome;
+    if (exibir) {
+        if (confirm(`Tem certeza que deseja excluir o cadastro do(a) ${nomeExcluido}?`)) {
+            alert(`Aluno(a) "${nomeExcluido}" removido(a) com sucesso.`);
+        } else {
+            return;
+        }
+    }
+    listaAlunos.splice(indice, 1);
+    geraLista();
 }
 
 function validaTelefone(telefone) {
@@ -91,9 +105,13 @@ function converteData(data) {
     return novaData.toLocaleString('pt-BR', {timeZone: "UTC", dateStyle:'short'});
 }
 
+function criaP() {
+    const p = document.createElement('p');
+    return p;
+}
+
 function removeP(paragrafo, tempo) {
     setTimeout(() => {
         paragrafo.innerHTML = "";
     }, tempo * 1000);
 }
-
